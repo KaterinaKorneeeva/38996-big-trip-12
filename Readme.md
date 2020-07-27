@@ -1,7 +1,7 @@
 # Личный проект «Большое путешествие» [![Build status][travis-image]][travis-url]
 
 * Студент: [Катерина Корнеева](https://up.htmlacademy.ru/ecmascript/12/user/38996).
-* Наставник: `Неизвестно`.
+* Наставник: [Даниил Царев](https://htmlacademy.ru/profile/id945835).
 
 ---
 
