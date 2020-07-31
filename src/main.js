@@ -178,7 +178,6 @@ const createElementTemplate = () => {
   );
 };
 
-
 // создание/редактирование эл-та
 const createElementEditTemplate = () => {
   return (
@@ -294,7 +293,6 @@ const createElementEditTemplate = () => {
   );
 };
 
-
 const createDetailsTripTemplate = () => {
   return (
   `
@@ -375,7 +373,6 @@ const render = (container, template, place) => {
 };
 
 // меню и фильтры
-
 render(headerInfoElement, createTripInfoTemplate(), `afterbegin`);
 render(headerControlsElement, createMenuTemplate(), `beforeend`);
 render(headerControlsElement, createFilterTemplate(), `beforeend`);
