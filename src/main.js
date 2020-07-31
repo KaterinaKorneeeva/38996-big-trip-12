@@ -44,7 +44,7 @@ const createFilterTemplate = () => {
   );
 };
 
-// контейнер для информация о поездке
+// контейнер для информации о поездке
 const createTripInfoTemplate = () => {
   return (
     `
@@ -71,7 +71,7 @@ const createTripInfoMainElement  = () => {
   );
 };
 
-// стоимость  поездке
+// стоимость поездки
 const createTripCostElement = () => {
   return (
     `
