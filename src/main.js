@@ -13,6 +13,8 @@ import {createDetailsTripTemplate} from "./view/trip-details.js";
 import {createDayTripTemplate} from "./view/day-trip.js";
 import {generatePoint} from "./mock/point.js";
 
+import {renderDate} from "../src/utils.js";
+
 const POINT_COUNT = 3;
 const headerElement = document.querySelector(`.page-header`);
 const headerInfoElement = headerElement.querySelector(`.trip-main`);
@@ -55,32 +57,59 @@ const dayListElement = mainElement.querySelector(`.trip-days`);
 
 
 
+// dates.forEach((date, index) => {
+//   points.filter((point) => new Date(point.date.start).toDateString() === date).forEach((point) => {
 
+//     // как в этом случае отрисовать точки маршрута, если эл-та trip-events__list еще нет
 
-dates.forEach((date, index) => {
-  points.filter((point) => new Date(point.date.start).toDateString() === date).forEach((point) => {
+//   });
 
-    // как в этом случае отрисовать точки маршрута, если эл-та trip-events__list еще нет
-
-  });
-
-  render(dayListElement, createDayTripTemplate(new Date(date), index + 1), `beforeend`);
-});
-
-
-// points.map((point) => {
-//   console.log('point', point.date.start);
-
-
+//   render(dayListElement, createDayTripTemplate(new Date(date), index + 1), `beforeend`);
 // });
 
-// список точек маршрута
-const tripListElement = mainElement.querySelector(`.trip-events__list`);
-render(tripListElement, createElementEditTemplate(points[0]), `beforeend`);
 
-const tripEditElement = mainElement.querySelector(`.event--edit`);
-render(tripEditElement, createDetailsTripTemplate(points[0]), `beforeend`);
+points.forEach((point) => {
+  const dateEvent  = point.date.start; // дата события
+  const dateTest2 = renderDate(point.date.start).split(`T`)[0]; // дата для поиска дня
 
-for (let i = 1; i < POINT_COUNT; i++) {
-  render(tripListElement, createElementTemplate(points[i]), `beforeend`);
-}
+  const dayElement1 = `time[datetime="${dateTest2}"]`;
+  console.log('dateTest',dayElement1);
+  const dayElement = document.querySelectorAll(dayElement1).length; //  эл-т дня
+
+  console.log('dayElement',dayElement);
+  console.log('dayElement.length',dayElement);
+
+  if (dayElement === 0) {
+    console.log('points', points);
+
+    render(dayListElement, createDayTripTemplate(new Date(point.date.start), 1), `beforeend`);  // разметка дня
+
+    const tripListElement = mainElement.querySelector(`.trip-events__list`);
+
+     const dateConst = point.date.start;
+
+     console.log('point.date.start', renderDate(dateConst).split(`T`)[0]);
+
+    //  .getAttribute('datetime')
+    //  console.log('test', renderDate(test).split(`T`)[0]);
+
+
+        if (renderDate(dateConst).split(`T`)[0] === dateTest2) {
+          render(tripListElement, createElementTemplate(point), `beforeend`);
+        }
+
+  } else {
+  }
+
+});
+
+// // список точек маршрута
+// const tripListElement = mainElement.querySelector(`.trip-events__list`);
+// render(tripListElement, createElementEditTemplate(points[0]), `beforeend`);
+
+// const tripEditElement = mainElement.querySelector(`.event--edit`);
+// render(tripEditElement, createDetailsTripTemplate(points[0]), `beforeend`);
+
+// for (let i = 1; i < POINT_COUNT; i++) {
+//   render(tripListElement, createElementTemplate(points[i]), `beforeend`);
+// }
