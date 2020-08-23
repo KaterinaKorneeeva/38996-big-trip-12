@@ -1,8 +1,1 @@
-export const createListTemplate = () => {
-  return (
-    `
-      <ul class="trip-days">
-      </ul>
-    `
-  );
-};
+export const createListTemplate = () => `<ul class="trip-days"></ul>`;

@@ -1,19 +1,14 @@
 import {getRandomInteger} from "../utils.js";
 import {TRANSPORT_TYPE, DESTINATION, DESCRIPTION_TEXT, OFFERS} from "../const.js";
 
-const generateType = () => {
-  const randomIndex = getRandomInteger(0, TRANSPORT_TYPE.length - 1);
+ // Функция генерации случайного элемента в массиве
+ var getRandomItem = function (arr) {
+  const randomIndex = getRandomInteger(0, arr.length - 1);
 
-  return TRANSPORT_TYPE[randomIndex];
+  return arr[randomIndex];
 };
 
-const generateDestinations = () => {
-  const randomIndex = getRandomInteger(0, DESTINATION.length - 1);
-
-  return DESTINATION[randomIndex];
-};
-
-const generateDescription = () => {
+const generateRandomDescription = () => {
   const descriptions = DESCRIPTION_TEXT.split(`.`);
 
   return descriptions.slice([getRandomInteger(0, descriptions.length - 1)], [getRandomInteger(0, descriptions.length - 1)])
@@ -28,9 +23,7 @@ const getPhotos = () => {
   return photos;
 };
 
-const generatePrice = () => {
-  return getRandomInteger(20, 500);
-};
+const generatePrice = () => getRandomInteger(20, 500);
 
 const generateDate = () => {
   const startDate = new Date();
@@ -50,15 +43,12 @@ const generateDate = () => {
   return eventDate;
 };
 
-export const generatePoint = () => {
-
-  return {
-    type: generateType(),
-    destination: generateDestinations(),
-    description: generateDescription(),
-    photos: getPhotos(),
-    price: generatePrice(),
-    date: generateDate(),
-    offers: OFFERS,
-  };
-};
+export const generatePoint = () => ({
+  type: getRandomItem(TRANSPORT_TYPE),
+  destination: getRandomItem(DESTINATION),
+  description: generateRandomDescription(),
+  photos: getPhotos(),
+  price: generatePrice(),
+  date: generateDate(),
+  offers: OFFERS,
+});

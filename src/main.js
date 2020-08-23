@@ -1,33 +1,22 @@
 "use strict";
 
+import {createMenuTemplate} from "./view/menu.js";
+import {createFilterTemplate} from "./view/filter.js";
+import {createTripInfoTemplate} from "./view/trip-info.js";
+import {createTripInfoMainElement} from "./view/trip-info-main.js";
+import {createTripCostElement} from "./view/trip-cost.js";
+import {createSortTemplate} from "./view/sort.js";
+import {createListTemplate} from "./view/list-trip.js";
+import {createElementTemplate} from "./view/trip.js";
+import {createElementEditTemplate} from "./view/trip-edit.js";
+import {createDetailsTripTemplate} from "./view/trip-details.js";
+import {createDayTripTemplate} from "./view/day-trip.js";
+import {generatePoint} from "./mock/point.js";
+
 const POINT_COUNT = 3;
 const headerElement = document.querySelector(`.page-header`);
 const headerInfoElement = headerElement.querySelector(`.trip-main`);
 const headerControlsElement = headerInfoElement.querySelector(`.trip-controls`);
-
-import {createMenuTemplate} from "./view/menu.js";
-// фильтры
-import {createFilterTemplate} from "./view/filter.js";
-// контейнер для информации о поездке
-import {createTripInfoTemplate} from "./view/trip-info.js";
-// информация о поездке
-import {createTripInfoMainElement} from "./view/trip-info-main.js";
-// стоимость поездки
-import {createTripCostElement} from "./view/trip-cost.js";
-// сортировка
-import {createSortTemplate} from "./view/sort.js";
-// cписок
-import {createListTemplate} from "./view/list-trip.js";
-// эл-т списка
-import {createElementTemplate} from "./view/trip.js";
-// создание/редактирование эл-та
-import {createElementEditTemplate} from "./view/trip-edit.js";
-// создание/редактирование эл-та
-import {createDetailsTripTemplate} from "./view/trip-details.js";
-
-import {createDayTripTemplate} from "./view/day-trip.js";
-
-import {generatePoint} from "./mock/point.js";
 
 const render = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
@@ -65,6 +54,9 @@ const dayListElement = mainElement.querySelector(`.trip-days`);
 ('dayListElement',dayListElement);
 
 
+
+
+
 dates.forEach((date, index) => {
   points.filter((point) => new Date(point.date.start).toDateString() === date).forEach((point) => {
 
@@ -74,6 +66,13 @@ dates.forEach((date, index) => {
 
   render(dayListElement, createDayTripTemplate(new Date(date), index + 1), `beforeend`);
 });
+
+
+// points.map((point) => {
+//   console.log('point', point.date.start);
+
+
+// });
 
 // список точек маршрута
 const tripListElement = mainElement.querySelector(`.trip-events__list`);
