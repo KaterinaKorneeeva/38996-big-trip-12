@@ -1,11 +1,6 @@
-import {parseTimeToArray} from "../utils.js";
+import {renderDate} from "../date-utils.js";
 
-const renderDate = (date) => {
-  const [year, month, day, hours, minutes] = parseTimeToArray(date);
-  return `${String(year).slice(-2)}/${month}/${day} ${hours}:${minutes}`;
-};
-
-export const createElementEditTemplate = (point) => {
+export const createEventEditTemplate = (point) => {
   const {type, price, destination, date} = point;
 
   return (

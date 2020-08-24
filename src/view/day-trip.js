@@ -1,9 +1,8 @@
-import {renderDate} from "../utils.js";
-
+import {renderDateHoursMin} from "../date-utils.js";
 
 export const createDayTripTemplate = (date, number) => {
 
-  const dateTime = renderDate(date).split(`T`)[0];
+  const dateTime = renderDateHoursMin(date).split(`T`)[0];
   return (
     `
       <li class="trip-days__item  day">

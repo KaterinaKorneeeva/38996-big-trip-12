@@ -1,1 +1,1 @@
-export const createListTemplate = () => `<ul class="trip-days"></ul>`;
+export const createListTripTemplate = () => `<ul class="trip-days"></ul>`;

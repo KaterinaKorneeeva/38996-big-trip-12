@@ -1,12 +1,5 @@
-import {getRandomInteger} from "../utils.js";
+import {getRandomInteger, getRandomItem} from "../utils.js";
 import {TRANSPORT_TYPE, DESTINATION, DESCRIPTION_TEXT, OFFERS} from "../const.js";
-
- // Функция генерации случайного элемента в массиве
- var getRandomItem = function (arr) {
-  const randomIndex = getRandomInteger(0, arr.length - 1);
-
-  return arr[randomIndex];
-};
 
 const generateRandomDescription = () => {
   const descriptions = DESCRIPTION_TEXT.split(`.`);
@@ -43,7 +36,7 @@ const generateDate = () => {
   return eventDate;
 };
 
-export const generatePoint = () => ({
+export const generateEvent = () => ({
   type: getRandomItem(TRANSPORT_TYPE),
   destination: getRandomItem(DESTINATION),
   description: generateRandomDescription(),

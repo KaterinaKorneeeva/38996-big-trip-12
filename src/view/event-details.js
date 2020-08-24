@@ -18,7 +18,7 @@ const createOfferTemplate = (offers) => {
     );
   }).join(`\n`);
 };
-export const createDetailsTripTemplate = (point) => {
+export const createEventDetailsTemplate = (point) => {
   const {description, photos, offers} = point;
 
   const photosTemplate = createPhotosTemplate(photos);

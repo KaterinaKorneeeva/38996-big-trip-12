@@ -1,15 +1,9 @@
-import {parseTimeToArray} from "../utils.js";
+import {renderDateHoursMin} from "../date-utils.js";
 
-const renderDate = (date) => {
-  const [year, month, day, hours, minutes] = parseTimeToArray(date);
-
-  return `${year}-${month}-${day}T${hours}:${minutes}`;
-};
-
-export const createElementTemplate = (point) => {
+export const createEventTemplate = (point) => {
   const {type, destination, price, date} = point;
-  const timeStart = renderDate(date.start).split(`T`)[1];
-  const timeEnd = renderDate(date.end).split(`T`)[1];
+  const timeStart = renderDateHoursMin(date.start).split(`T`)[1];
+  const timeEnd = renderDateHoursMin(date.end).split(`T`)[1];
 
   return (
     `
@@ -22,11 +16,11 @@ export const createElementTemplate = (point) => {
 
           <div class="event__schedule">
             <p class="event__time">
-            <time class="event__start-time" datetime="${renderDate(date.start)}">
+            <time class="event__start-time" datetime="${renderDateHoursMin(date.start)}">
               ${timeStart}
             </time>
               &mdash;
-            <time class="event__end-time" datetime="${renderDate(date.end)}">
+            <time class="event__end-time" datetime="${renderDateHoursMin(date.end)}">
               ${timeEnd}
             </time>
             </p>
@@ -45,7 +39,6 @@ export const createElementTemplate = (point) => {
               &euro;&nbsp;<span class="event__offer-price">20</span>
               </li>
           </ul>
-
           <button class="event__rollup-btn" type="button">
             <span class="visually-hidden">Open event</span>
           </button>
