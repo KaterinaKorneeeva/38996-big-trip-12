@@ -34,6 +34,24 @@ const renderEvent = (eventListElement, event) => {
   const eventComponent = new EventView(event);
   const eventEditComponent = new EventEditView(event);
 
+
+  const replaceCardToForm = () => {
+    eventListElement.replaceChild(eventEditComponent.getElement(), eventComponent.getElement());
+  };
+
+  const replaceFormToCard = () => {
+    eventListElement.replaceChild(eventComponent.getElement(), eventEditComponent.getElement());
+  };
+
+  eventComponent.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, () => {
+    replaceCardToForm();
+  });
+
+  eventEditComponent.getElement().querySelector(`.event__save-btn`).addEventListener(`click`, (evt) => {
+      evt.preventDefault();
+      replaceFormToCard();
+  });
+
   render(eventListElement, eventComponent.getElement());
 };
 
