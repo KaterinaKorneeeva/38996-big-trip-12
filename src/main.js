@@ -47,7 +47,7 @@ const renderEvent = (eventListElement, event) => {
     replaceCardToForm();
   });
 
-  eventEditComponent.getElement().querySelector(`.event__save-btn`).addEventListener(`click`, (evt) => {
+  eventEditComponent.getElement().querySelector(`form`).addEventListener(`submit`, (evt) => {
       evt.preventDefault();
       replaceFormToCard();
   });

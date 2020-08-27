@@ -4,7 +4,8 @@ import {renderDate} from "../date-utils.js";
 const createEventEditTemplate = (event) => {
   const {type, price, destination, date} = event;
 
-  return `<form class="trip-events__item  event  event--edit" action="#" method="post">
+  return `<li class="trip-events__item">
+          <form class="trip-events__item  event  event--edit" action="#" method="post">
           <header class="event__header">
             <div class="event__type-wrapper">
               <label class="event__type  event__type-btn" for="event-type-toggle-1">
@@ -110,7 +111,8 @@ const createEventEditTemplate = (event) => {
             <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
             <button class="event__reset-btn" type="reset">Cancel</button>
           </header>
-        </form>`;
+        </form>
+        </li>`;
 };
 
 export default class EventEdit {
