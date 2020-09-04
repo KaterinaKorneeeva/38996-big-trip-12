@@ -1,4 +1,4 @@
-import {createElement} from "../dom-utils.js";
+import AbstractView from "./abstract.js";
 
 const createPhotosTemplate = (photos) => {
   return photos.map((photo) => `
@@ -45,26 +45,14 @@ const createEventDetailsTemplate = (event) => {
         </section>`;
 };
 
-export default class EventDetails {
+// export default class EventDetails {
+export default class EventDetails extends AbstractView {
   constructor(event) {
+    super();
     this._event = event;
-
-    this._element = null;
   }
 
   getTemplate() {
     return createEventDetailsTemplate(this._event);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

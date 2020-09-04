@@ -1,4 +1,4 @@
-import {getRandomInteger} from "../src/utils.js";
+import {getRandomInteger} from "./utils/common.js";
 
 const TRANSPORT_TYPE = [
   `Taxi`,

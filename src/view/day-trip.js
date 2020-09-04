@@ -1,5 +1,6 @@
-import {renderDateHoursMin} from "../date-utils.js";
-import {createElement} from "../dom-utils.js";
+import AbstractView from "./abstract.js";
+import {renderDateHoursMin} from "../utils/date-utils.js";
+import {createElement} from "../utils/dom-utils.js";
 
 const createDayTripTemplate = (date, number) => {
   const dateTime = renderDateHoursMin(date).split(`T`)[0];
