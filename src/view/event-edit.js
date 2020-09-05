@@ -1,8 +1,14 @@
 import AbstractView from "./abstract.js";
 import {renderDate} from "../utils/date-utils.js";
+import EventDetailsView from "../view/event-details.js";
 
 const createEventEditTemplate = (event) => {
   const {type, price, destination, date} = event;
+
+  const EventDetailsBlock = new EventDetailsView(event);
+  const getEventDetails = () => (`
+    ${EventDetailsBlock.getTemplate()}
+  `);
 
   return `<li class="trip-events__item">
           <form class="trip-events__item  event  event--edit" action="#" method="post">
@@ -111,10 +117,10 @@ const createEventEditTemplate = (event) => {
             <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
             <button class="event__reset-btn" type="reset">Cancel</button>
           </header>
+          ${getEventDetails()}
         </form>
         </li>`;
 };
-
 
 export default class EventEdit extends AbstractView {
   constructor(event) {
@@ -122,7 +128,6 @@ export default class EventEdit extends AbstractView {
     this._event = event;
 
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
-
   }
 
   getTemplate() {
