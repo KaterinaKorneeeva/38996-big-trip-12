@@ -1,5 +1,5 @@
-import {createElement} from "../dom-utils.js";
-import {renderDate} from "../date-utils.js";
+import AbstractView from "./abstract.js";
+import {renderDate} from "../utils/date-utils.js";
 
 const createEventEditTemplate = (event) => {
   const {type, price, destination, date} = event;
@@ -115,26 +115,27 @@ const createEventEditTemplate = (event) => {
         </li>`;
 };
 
-export default class EventEdit {
+
+export default class EventEdit extends AbstractView {
   constructor(event) {
+    super();
     this._event = event;
 
-    this._element = null;
+    this._formSubmitHandler = this._formSubmitHandler.bind(this);
+
   }
 
   getTemplate() {
     return createEventEditTemplate(this._event);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+  _formSubmitHandler(evt) {
+    evt.preventDefault();
+    this._callback.formSubmit();
   }
 
-  removeElement() {
-    this._element = null;
+  setFormSubmitHandler(callback) {
+    this._callback.formSubmit = callback;
+    this.getElement().querySelector(`form`).addEventListener(`submit`, this._formSubmitHandler);
   }
 }

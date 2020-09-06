@@ -7,7 +7,7 @@ import EventView from "./view/event.js";
 import EventEditView from "./view/event-edit.js";
 import DayTripView from "./view/day-trip.js";
 import { generateEvent } from "./mock/event.js";
-import {render, RenderPosition } from "./dom-utils.js";
+import {render, RenderPosition, replace, remove} from "./utils/dom-utils.js";
 
 const EVENT_COUNT = 13;
 const headerElement = document.querySelector(`.page-header`);
@@ -36,20 +36,27 @@ const renderEvent = (eventListElement, event) => {
 
 
   const replaceCardToForm = () => {
-    eventListElement.replaceChild(eventEditComponent.getElement(), eventComponent.getElement());
+    replace(eventEditComponent, eventComponent);
+    // eventListElement.replaceChild(eventEditComponent.getElement(), eventComponent.getElement());
   };
 
   const replaceFormToCard = () => {
-    eventListElement.replaceChild(eventComponent.getElement(), eventEditComponent.getElement());
+    replace(eventComponent, eventEditComponent);
+    // eventListElement.replaceChild(eventComponent.getElement(), eventEditComponent.getElement());
   };
 
   eventComponent.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, () => {
     replaceCardToForm();
   });
 
-  eventEditComponent.getElement().querySelector(`form`).addEventListener(`submit`, (evt) => {
-      evt.preventDefault();
-      replaceFormToCard();
+  // eventEditComponent.getElement().querySelector(`form`).addEventListener(`submit`, (evt) => {
+  //     evt.preventDefault();
+  //     replaceFormToCard();
+  // });
+
+  eventEditComponent.setFormSubmitHandler(() => {
+    replaceFormToCard();
+    document.removeEventListener(`keydown`, onEscKeyDown);
   });
 
   render(eventListElement, eventComponent.getElement());

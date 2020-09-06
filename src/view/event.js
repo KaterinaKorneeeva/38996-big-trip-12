@@ -1,5 +1,5 @@
-import {createElement} from "../dom-utils.js";
-import {renderDateHoursMin} from "../date-utils.js";
+import AbstractView from "./abstract.js";
+import {renderDateHoursMin} from "../utils/date-utils.js";
 
 const createEventTemplate = (event) => {
   const {type, destination, price, date} = event;
@@ -44,26 +44,14 @@ const createEventTemplate = (event) => {
         </li>`;
 };
 
-export default class Event {
+// export default class Event {
+export default class Event extends AbstractView {
   constructor(event) {
+    super();
     this._event = event;
-
-    this._element = null;
   }
 
   getTemplate() {
     return createEventTemplate(this._event);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
