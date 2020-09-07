@@ -2,11 +2,10 @@ import EventView from "../view/event.js";
 import EventEditView from "../view/event-edit.js";
 
 import {isEscEvent} from "../utils/common.js";
-import {render, replace} from "../utils/dom-utils.js";
+import {render, replace, remove} from "../utils/dom-utils.js";
 
 export default class Event {
   constructor(eventListContainer) {
-    console.log('eventListContainer',eventListContainer);
     this._eventListContainer = eventListContainer;
 
     this._EventComponent = null;
@@ -20,39 +19,48 @@ export default class Event {
   init(event) {
     this._task = event;
 
+    const prevEventComponent = this._eventComponent;
+    const prevEventEditComponent = this._eventEditComponent;
+
     this._eventComponent = new EventView(event);
     this._eventEditComponent = new EventEditView(event);
 
-    const replaceCardToForm = () => {
-      replace(this._eventEditComponent, this._eventComponent);
-    };
+    this._eventComponent.setEditClickHandler(this._handleEditClick);
+    this._eventEditComponent.setFormSubmitHandler(this._handleFormSubmit);
 
-    const replaceFormToCard = () => {
-      replace(this._eventComponent, this._eventEditComponent);
-    };
+    // условие на проверку, первый раз был вызван init или нет
+    if (prevEventComponent === null || prevEventEditComponent === null) {
+      render(this._eventListContainer, this._eventComponent.getElement());
+      return;
+    }
 
-    this._eventComponent.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, () => {
-      replaceCardToForm();
-    });
+    // Проверка на наличие в DOM необходима,
+    // чтобы не пытаться заменить то, что не было отрисовано
+    if (this._eventListContainer.getElement().contains(prevEventComponent.getElement())) {
+      replace(this._eventComponent, prevEventComponent);
+    }
 
-    this._eventEditComponent.setFormSubmitHandler(() => {
-      replaceFormToCard();
-      document.removeEventListener(`keydown`, isEscEvent);
-    });
+    if (this._eventListContainer.getElement().contains(prevEventEditComponent.getElement())) {
+      replace(this._eventEditComponent, prevEventEditComponent);
+    }
 
-    // this._eventComponent.setEditClickHandler(this._handleEditClick);
-    // this._eventEditComponent.setFormSubmitHandler(this._handleFormSubmit);
-    render(this._eventListContainer, this._eventComponent.getElement());
-    // render(this._taskListContainer, this._taskComponent, RenderPosition.BEFOREEND);
+    remove(prevEventComponent);
+    remove(prevEventEditComponent);
+  }
+
+  // для очищения списка вместо innerHtml
+  destroy() {
+    remove(this._eventComponent);
+    remove(this._eventEditComponent);
   }
 
   _replaceCardToForm() {
-    replace(this._taskEditComponent, this._taskComponent);
+    replace(this._eventEditComponent, this._eventComponent);
     document.addEventListener(`keydown`, this._escKeyDownHandler);
   }
 
   _replaceFormToCard() {
-    replace(this._taskComponent, this._taskEditComponent);
+    replace(this._eventComponent, this._eventEditComponent);
     document.removeEventListener(`keydown`, this._escKeyDownHandler);
   }
 

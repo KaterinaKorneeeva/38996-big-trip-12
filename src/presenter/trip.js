@@ -1,13 +1,9 @@
-// import TripInfoView from "./view/trip-info.js";
+
 import SortView from "../view/sort.js";
 import ListTripView from "../view/list-trip.js";
-// import EventView from "../view/event.js";
-// import EventEditView from "../view/event-edit.js";
-
 import EventPresenter from "./event.js";
-
 import DayTripView from "../view/day-trip.js";
-import {isEscEvent} from "../utils/common.js";
+import {isEscEvent, updateItem} from "../utils/common.js";
 import {render, replace} from "../utils/dom-utils.js";
 
 
@@ -16,41 +12,38 @@ export default class Trip {
     this._boardContainer = tripContainer;
     this._listTripComponent = new ListTripView();
     this._sortComponent = new SortView();
+    this._eventPresenter = {};
+
+    this._handleEventChange = this._handleEventChange.bind(this);
+
+
   }
 
 
   init(events) {
-    this._events = events;
+    this._events = events.slice();
+    console.log('this._events', this._events);
+    // 1. В отличии от сортировки по любому параметру,
+    // исходный порядок можно сохранить только одним способом -
+    // сохранив исходный массив:
+
+    this._sourcedBoardEvents = events.slice();
+    console.log('this._sourcedBoardTasks ', this._sourcedBoardEvents);
     this._renderBoard();
   }
 
-  // _renderEvent(eventListElement, event) {
-  //   const eventComponent = new EventView(event);
-  //   const eventEditComponent = new EventEditView(event);
+  _handleEventChange(updatedEvent) {
+    this._events = updateItem(this._events, updatedEvent);
+    this._sourcedBoardTasks = updateItem(this._sourcedBoardEvents, updatedEvent);
+    this._eventPresenter[updatedEvent.id].init(updatedEvent);
+  }
 
-  //   const replaceCardToForm = () => {
-  //     replace(eventEditComponent, eventComponent);
-  //   };
-
-  //   const replaceFormToCard = () => {
-  //     replace(eventComponent, eventEditComponent);
-  //   };
-
-  //   eventComponent.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, () => {
-  //     replaceCardToForm();
-  //   });
-
-  //   eventEditComponent.setFormSubmitHandler(() => {
-  //     replaceFormToCard();
-  //     document.removeEventListener(`keydown`, isEscEvent);
-  //   });
-
-  //   render(eventListElement, eventComponent.getElement());
-  // }
-
+  // для каждого event вой presenter
   _renderEvent(eventListElement, event) {
-    const EventPresenter = new EventPresenter(this._listTripComponent);
-    EventPresenter.init(event);
+    const eventPresenter = new EventPresenter(eventListElement);
+    // const eventPresenter = new EventPresenter(eventListElement, this._handleEventChange, this._handleModeChange);
+    eventPresenter.init(event);
+    this._eventPresenter[event.id] = eventPresenter;
   }
 
   _renderEvents(events) {
@@ -88,6 +81,14 @@ export default class Trip {
         this._renderEvent(dayElement.getEventsList(), event);
       }
     }
+  }
+
+  _clearEventList() {
+    Object
+      .values(this._eventPresenter)
+      .forEach((presenter) => presenter.destroy());
+    this._eventPresenter = {};
+    // this._renderedTaskCount = TASK_COUNT_PER_STEP;
   }
 
   _renderBoard() {

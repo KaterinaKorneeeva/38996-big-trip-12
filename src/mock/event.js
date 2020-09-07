@@ -1,5 +1,12 @@
-import {getRandomInteger, getRandomItem} from "../utils/common.js";
+import {getRandomInteger, getRandomItem, getRandomBoolean} from "../utils/common.js";
 import {TRANSPORT_TYPE, DESTINATION, DESCRIPTION_TEXT, OFFERS} from "../const.js";
+
+// Date.now() и Math.random() - плохие решения для генерации id
+// в "продуктовом" коде, а для моков самое то.
+// Для "продуктового" кода используйте что-то понадежнее,
+// вроде nanoid - https://github.com/ai/nanoid
+const generateId = () => Date.now() + parseInt(Math.random() * 10000, 10);
+
 
 const generateRandomDescription = () => {
   const descriptions = DESCRIPTION_TEXT.split(`.`);
@@ -37,6 +44,7 @@ const generateDate = () => {
 };
 
 export const generateEvent = () => ({
+  id: generateId(),
   type: getRandomItem(TRANSPORT_TYPE),
   destination: getRandomItem(DESTINATION),
   description: generateRandomDescription(),
@@ -44,4 +52,5 @@ export const generateEvent = () => ({
   price: generatePrice(),
   date: generateDate(),
   offers: OFFERS,
+  isFavorite: getRandomBoolean(),
 });
