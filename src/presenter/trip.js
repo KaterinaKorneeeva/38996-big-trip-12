@@ -22,26 +22,27 @@ export default class Trip {
 
   init(events) {
     this._events = events.slice();
-    console.log('this._events', this._events);
     // 1. В отличии от сортировки по любому параметру,
     // исходный порядок можно сохранить только одним способом -
     // сохранив исходный массив:
 
     this._sourcedBoardEvents = events.slice();
-    console.log('this._sourcedBoardTasks ', this._sourcedBoardEvents);
     this._renderBoard();
   }
 
+  // ф-ия обновления моков, только один эл-т массива (один event)
   _handleEventChange(updatedEvent) {
     this._events = updateItem(this._events, updatedEvent);
+    // обновит
     this._sourcedBoardTasks = updateItem(this._sourcedBoardEvents, updatedEvent);
+    // вызовет init заново уже у сущ eventPresenter с новыми данными
     this._eventPresenter[updatedEvent.id].init(updatedEvent);
   }
 
-  // для каждого event вой presenter
+  // для каждого event свой presenter
   _renderEvent(eventListElement, event) {
-    const eventPresenter = new EventPresenter(eventListElement);
-    // const eventPresenter = new EventPresenter(eventListElement, this._handleEventChange, this._handleModeChange);
+    // const eventPresenter = new EventPresenter(eventListElement);
+    const eventPresenter = new EventPresenter(eventListElement, this._handleEventChange);
     eventPresenter.init(event);
     this._eventPresenter[event.id] = eventPresenter;
   }

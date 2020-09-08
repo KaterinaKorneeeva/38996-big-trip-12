@@ -5,6 +5,10 @@ import EventDetailsView from "../view/event-details.js";
 const createEventEditTemplate = (event) => {
   const {type, price, destination, date, isFavorite} = event;
 
+  const favoriteChecked = isFavorite
+    ? `checked`
+    : ``;
+
   const EventDetailsBlock = new EventDetailsView(event);
   const getEventDetails = () => (`
     ${EventDetailsBlock.getTemplate()}
@@ -116,7 +120,7 @@ const createEventEditTemplate = (event) => {
             </div>
             <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
             <button class="event__reset-btn" type="reset">Cancel</button>
-            <input id="event-favorite-1" class="event__favorite-checkbox  visually-hidden" type="checkbox" name="event-favorite" ${isFavorite === true ? `checked` : ``}>
+            <input id="event-favorite-1" class="event__favorite-checkbox  visually-hidden" type="checkbox" name="event-favorite" ${favoriteChecked}>
             <label class="event__favorite-btn" for="event-favorite-1">
               <span class="visually-hidden">Add to favorite</span>
               <svg class="event__favorite-icon" width="28" height="28" viewBox="0 0 28 28">
@@ -137,6 +141,7 @@ export default class EventEdit extends AbstractView {
     super();
     this._event = event;
 
+    this._favoriteClickHandler = this._favoriteClickHandler.bind(this);
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
   }
 
@@ -144,9 +149,18 @@ export default class EventEdit extends AbstractView {
     return createEventEditTemplate(this._event);
   }
 
+  _favoriteClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.favoriteClick(this._event);
+  }
+  setFavoriteClickHandler(callback) {
+    this._callback.favoriteClick = callback;
+    this.getElement().querySelector(`.event__favorite-btn`).addEventListener(`click`, this._favoriteClickHandler);
+  }
+
   _formSubmitHandler(evt) {
     evt.preventDefault();
-    this._callback.formSubmit();
+    this._callback.formSubmit(this._event);
   }
 
   setFormSubmitHandler(callback) {

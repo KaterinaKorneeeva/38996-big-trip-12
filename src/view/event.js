@@ -51,6 +51,7 @@ export default class Event extends AbstractView {
     this._event = event;
 
     this._editClickHandler = this._editClickHandler.bind(this);
+    // this._favoriteClickHandler = this._favoriteClickHandler.bind(this);
   }
 
   getTemplate() {
@@ -66,4 +67,5 @@ export default class Event extends AbstractView {
     this._callback.editClick = callback;
     this.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, this._editClickHandler);
   }
+
 }
