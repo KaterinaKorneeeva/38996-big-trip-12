@@ -16,6 +16,9 @@ export default class Trip {
 
     this._handleEventChange = this._handleEventChange.bind(this);
 
+    //метод для сброса представлений
+    this._handleModeChange = this._handleModeChange.bind(this);
+
 
   }
 
@@ -39,10 +42,15 @@ export default class Trip {
     this._eventPresenter[updatedEvent.id].init(updatedEvent);
   }
 
+  _handleModeChange() {
+    Object
+      .values(this._eventPresenter)
+      .forEach((presenter) => presenter.resetView());
+  }
+
   // для каждого event свой presenter
   _renderEvent(eventListElement, event) {
-    // const eventPresenter = new EventPresenter(eventListElement);
-    const eventPresenter = new EventPresenter(eventListElement, this._handleEventChange);
+    const eventPresenter = new EventPresenter(eventListElement, this._handleEventChange, this._handleModeChange);
     eventPresenter.init(event);
     this._eventPresenter[event.id] = eventPresenter;
   }

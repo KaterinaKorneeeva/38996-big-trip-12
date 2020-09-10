@@ -1,4 +1,5 @@
-import AbstractView from "./abstract.js";
+// import AbstractView from "./abstract.js";
+import SmartView from "./smart.js";
 import {renderDate} from "../utils/date-utils.js";
 import EventDetailsView from "../view/event-details.js";
 
@@ -152,10 +153,9 @@ const createEventEditTemplate = (event) => {
         </li>`;
 };
 
-export default class EventEdit extends AbstractView {
+export default class EventEdit extends SmartView {
   constructor(event = BLANK_EVENT) {
     super();
-    // this._event = event;
 
     // статичный метод
     this._data = EventEdit.parseTaskToData(event);
@@ -172,48 +172,14 @@ export default class EventEdit extends AbstractView {
     this._setInnerHandlers();
   }
 
+  // сброс
+  reset(event) {
+    this.updateData(
+        EventEdit.parseTaskToData(event)
+    );
+  }
   getTemplate() {
     return createEventEditTemplate(this._data);
-  }
-
-  // обновляет данные
-  // есть кнопка пользователь на нее кликает, на ней обработчик и вызывает
-  // updateData
-  // updateData(update) {
-  updateData(update, justDataUpdating) {
-    // если нечего обновлять, то прерываем
-    if (!update) {
-      return;
-    }
-
-    // берем те данные которые были и добавляем им  update
-    this._data = Object.assign(
-        {},
-        this._data,
-        update
-    );
-
-    if (justDataUpdating) {
-      return;
-    }
-
-    // вызываем метод
-    this.updateElement();
-  }
-
-
-  // обновляет разметку
-  updateElement() {
-    let prevElement = this.getElement();
-    const parent = prevElement.parentElement;
-    this.removeElement();
-
-    const newElement = this.getElement();
-
-    parent.replaceChild(newElement, prevElement);
-    prevElement = null; // Чтобы окончательно "убить" ссылку на prevElement
-
-    this.restoreHandlers();
   }
 
   // восстановление обработчиков после перерисовки
