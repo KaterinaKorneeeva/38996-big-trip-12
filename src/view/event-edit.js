@@ -2,8 +2,27 @@ import AbstractView from "./abstract.js";
 import {renderDate} from "../utils/date-utils.js";
 import EventDetailsView from "../view/event-details.js";
 
+import {TRANSPORT_TYPE, DESTINATION} from "../const.js";
+
+const types = TRANSPORT_TYPE;
+
+const BLANK_EVENT = {
+  type: ``,
+  infoDestination: {
+    description: ``,
+    pictures: [],
+  },
+  price: ``,
+  date: {
+    start: new Date(),
+    end: new Date(),
+  },
+  isFavorite: false,
+};
+
 const createEventEditTemplate = (event) => {
-  const {type, price, destination, date, isFavorite} = event;
+  const {type, price, infoDestination, date, isFavorite} = event;
+  const cityOptions = DESTINATION.map((city) => `<option value="${city}">`).join(``);
 
   const favoriteChecked = isFavorite
     ? `checked`
@@ -89,12 +108,9 @@ const createEventEditTemplate = (event) => {
               <label class="event__label  event__type-output" for="event-destination-1">
               ${type} to
               </label>
-              <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination}" list="destination-list-1">
+              <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${infoDestination.city}" list="destination-list-1">
               <datalist id="destination-list-1">
-                <option value="Amsterdam"></option>
-                <option value="Geneva"></option>
-                <option value="Chamonix"></option>
-                <option value="Saint Petersburg"></option>
+                ${cityOptions}
               </datalist>
             </div>
 
@@ -137,21 +153,120 @@ const createEventEditTemplate = (event) => {
 };
 
 export default class EventEdit extends AbstractView {
-  constructor(event) {
+  constructor(event = BLANK_EVENT) {
     super();
-    this._event = event;
+    // this._event = event;
+
+    // статичный метод
+    this._data = EventEdit.parseTaskToData(event);
 
     this._favoriteClickHandler = this._favoriteClickHandler.bind(this);
+
+    this._typeClickHandler = this._typeClickHandler.bind(this);
+    this._destinationClickHandler = this._destinationClickHandler.bind(this);
+
+
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
+
+    //
+    this._setInnerHandlers();
   }
 
   getTemplate() {
-    return createEventEditTemplate(this._event);
+    return createEventEditTemplate(this._data);
+  }
+
+  // обновляет данные
+  // есть кнопка пользователь на нее кликает, на ней обработчик и вызывает
+  // updateData
+  // updateData(update) {
+  updateData(update, justDataUpdating) {
+    // если нечего обновлять, то прерываем
+    if (!update) {
+      return;
+    }
+
+    // берем те данные которые были и добавляем им  update
+    this._data = Object.assign(
+        {},
+        this._data,
+        update
+    );
+
+    if (justDataUpdating) {
+      return;
+    }
+
+    // вызываем метод
+    this.updateElement();
+  }
+
+
+  // обновляет разметку
+  updateElement() {
+    let prevElement = this.getElement();
+    const parent = prevElement.parentElement;
+    this.removeElement();
+
+    const newElement = this.getElement();
+
+    parent.replaceChild(newElement, prevElement);
+    prevElement = null; // Чтобы окончательно "убить" ссылку на prevElement
+
+    this.restoreHandlers();
+  }
+
+  // восстановление обработчиков после перерисовки
+  restoreHandlers() {
+    this._setInnerHandlers();
+    this.setFormSubmitHandler(this._callback.formSubmit);
+  }
+
+  _setInnerHandlers() {
+    this.getElement()
+      .querySelector(`.event__type-list`)
+      .addEventListener(`change`, this._typeClickHandler);
+
+    this.getElement()
+      .querySelector(`.event__input--destination`)
+      .addEventListener(`change`, this._destinationClickHandler);
+  }
+
+  // только обновление date поэтому true
+  // _descriptionInputHandler(evt) {
+  //   evt.preventDefault();
+  //   this.updateData({
+  //     description: evt.target.value
+  //   }, true);
+  // }
+
+
+
+  _typeClickHandler(evt) {
+    evt.preventDefault();
+    this._data.type = types.filter((item) => item.toLowerCase() === evt.target.value.toLowerCase());
+    this.updateData({
+      type: this._data.type[0],
+    });
+  }
+
+  _destinationClickHandler(evt) {
+    evt.preventDefault();
+    this._data.city = evt.target.value;
+
+    this.updateData({
+
+      infoDestination: {
+        city: this._data.city,
+        description: ``,
+        photos: [],
+      },
+    });
   }
 
   _favoriteClickHandler(evt) {
     evt.preventDefault();
-    this._callback.favoriteClick(this._event);
+    this._callback.favoriteClick(this._data);
   }
   setFavoriteClickHandler(callback) {
     this._callback.favoriteClick = callback;
@@ -160,11 +275,16 @@ export default class EventEdit extends AbstractView {
 
   _formSubmitHandler(evt) {
     evt.preventDefault();
-    this._callback.formSubmit(this._event);
+    this._callback.formSubmit(this._data);
   }
 
   setFormSubmitHandler(callback) {
     this._callback.formSubmit = callback;
     this.getElement().querySelector(`form`).addEventListener(`submit`, this._formSubmitHandler);
+  }
+
+
+  static parseTaskToData(data) {
+    return Object.assign({}, data);
   }
 }

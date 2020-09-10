@@ -22,9 +22,8 @@ const createOfferTemplate = (offers) => {
 };
 
 const createEventDetailsTemplate = (event) => {
-  const {description, photos, offers} = event;
-
-  const photosTemplate = createPhotosTemplate(photos);
+  const {infoDestination, offers} = event;
+  const photosTemplate = createPhotosTemplate(infoDestination.photos);
   return `<section class="event__details">
               <section class="event__section  event__section--offers">
                 <h3 class="event__section-title  event__section-title--offers">Offers</h3>
@@ -34,7 +33,7 @@ const createEventDetailsTemplate = (event) => {
               </section>
               <section class="event__section  event__section--destination">
                 <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-                <p class="event__destination-description"> ${description}</p>
+                <p class="event__destination-description"> ${infoDestination.description}</p>
                 <div class="event__photos-container">
                   <div class="event__photos-tape">
                     ${photosTemplate}

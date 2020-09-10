@@ -46,9 +46,11 @@ const generateDate = () => {
 export const generateEvent = () => ({
   id: generateId(),
   type: getRandomItem(TRANSPORT_TYPE),
-  destination: getRandomItem(DESTINATION),
-  description: generateRandomDescription(),
-  photos: getPhotos(),
+  infoDestination: {
+    city: getRandomItem(DESTINATION),
+    description: generateRandomDescription(),
+    photos: getPhotos(),
+  },
   price: generatePrice(),
   date: generateDate(),
   offers: OFFERS,
