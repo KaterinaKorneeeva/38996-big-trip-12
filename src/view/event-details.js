@@ -1,8 +1,8 @@
 import AbstractView from "./abstract.js";
 
-const createPhotosTemplate = (photos) => {
-  return photos.map((photo) => `
-    <img class="event__photo" src="${photo}" alt="Event photo">
+const createPhotosTemplate = (photos, description) => {
+  return photos.map((src) => `
+    <img class="event__photo" src="${src}" alt="${description}">
   `).join(``);
 };
 
@@ -23,7 +23,8 @@ const createOfferTemplate = (offers) => {
 
 const createEventDetailsTemplate = (event) => {
   const {infoDestination, offers} = event;
-  const photosTemplate = createPhotosTemplate(infoDestination.photos);
+  const {src, description} = infoDestination.pictures;
+  const photosTemplate = createPhotosTemplate(src, description);
   return `<section class="event__details">
               <section class="event__section  event__section--offers">
                 <h3 class="event__section-title  event__section-title--offers">Offers</h3>

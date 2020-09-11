@@ -109,7 +109,7 @@ const createEventEditTemplate = (event) => {
               <label class="event__label  event__type-output" for="event-destination-1">
               ${type} to
               </label>
-              <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${infoDestination.city}" list="destination-list-1">
+              <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${infoDestination.name}" list="destination-list-1">
               <datalist id="destination-list-1">
                 ${cityOptions}
               </datalist>
@@ -218,14 +218,14 @@ export default class EventEdit extends SmartView {
 
   _destinationClickHandler(evt) {
     evt.preventDefault();
-    this._data.city = evt.target.value;
+    this._data.name = evt.target.value;
 
     this.updateData({
 
       infoDestination: {
-        city: this._data.city,
+        name: this._data.name,
         description: ``,
-        photos: [],
+        pictures: [],
       },
     });
   }
