@@ -2,10 +2,12 @@
 import SmartView from "./smart.js";
 import {renderDate} from "../utils/date-utils.js";
 import EventDetailsView from "../view/event-details.js";
+import {getPhotos, generateRandomDescription, generateOffers} from "../mock/event.js";
 
-import {TRANSPORT_TYPE, DESTINATION} from "../const.js";
+import {TRANSPORT_TYPE, TRANSFER, ACTIVITY, DESTINATION, OFFERS} from "../const.js";
 
 const types = TRANSPORT_TYPE;
+const offers = OFFERS;
 
 const BLANK_EVENT = {
   type: ``,
@@ -21,9 +23,21 @@ const BLANK_EVENT = {
   isFavorite: false,
 };
 
+
+const getItemTypeTemplate = (arr, checkedType) => {
+  return arr.map((type) => `<div class="event__type-item">
+    <input id="event-type-${type}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${type}" ${checkedType.toUpperCase() === type.toUpperCase() ? ` checked` : ``}>
+    <label class="event__type-label  event__type-label--${type}" for="event-type-${type}-1">${type[0].toUpperCase() + type.slice(1)}</label>
+    </div>`
+  ).join(``);
+};
+
 const createEventEditTemplate = (event) => {
   const {type, price, infoDestination, date, isFavorite} = event;
   const cityOptions = DESTINATION.map((city) => `<option value="${city}">`).join(``);
+
+  const itemTransferTemplate = getItemTypeTemplate(TRANSFER, type);
+  const itemActivityTemplate = getItemTypeTemplate(ACTIVITY, type);
 
   const favoriteChecked = isFavorite
     ? `checked`
@@ -43,64 +57,14 @@ const createEventEditTemplate = (event) => {
                 <img class="event__type-icon" width="17" height="17" src="img/icons/${type}.png" alt="Event type icon">
               </label>
               <input class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox">
-
               <div class="event__type-list">
                 <fieldset class="event__type-group">
                   <legend class="visually-hidden">Transfer</legend>
-
-                  <div class="event__type-item">
-                    <input id="event-type-taxi-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="taxi">
-                    <label class="event__type-label  event__type-label--taxi" for="event-type-taxi-1">Taxi</label>
-                  </div>
-
-                  <div class="event__type-item">
-                    <input id="event-type-bus-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="bus" checked>
-                    <label class="event__type-label  event__type-label--bus" for="event-type-bus-1">Bus</label>
-                  </div>
-
-                  <div class="event__type-item">
-                    <input id="event-type-train-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="train">
-                    <label class="event__type-label  event__type-label--train" for="event-type-train-1">Train</label>
-                  </div>
-
-                  <div class="event__type-item">
-                    <input id="event-type-ship-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="ship">
-                    <label class="event__type-label  event__type-label--ship" for="event-type-ship-1">Ship</label>
-                  </div>
-
-                  <div class="event__type-item">
-                    <input id="event-type-transport-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="transport">
-                    <label class="event__type-label  event__type-label--transport" for="event-type-transport-1">Transport</label>
-                  </div>
-
-                  <div class="event__type-item">
-                    <input id="event-type-drive-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="drive">
-                    <label class="event__type-label  event__type-label--drive" for="event-type-drive-1">Drive</label>
-                  </div>
-
-                  <div class="event__type-item">
-                    <input id="event-type-flight-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="flight">
-                    <label class="event__type-label  event__type-label--flight" for="event-type-flight-1">Flight</label>
-                  </div>
+                  ${itemTransferTemplate}
                 </fieldset>
-
                 <fieldset class="event__type-group">
                   <legend class="visually-hidden">Activity</legend>
-
-                  <div class="event__type-item">
-                    <input id="event-type-check-in-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="check-in">
-                    <label class="event__type-label  event__type-label--check-in" for="event-type-check-in-1">Check-in</label>
-                  </div>
-
-                  <div class="event__type-item">
-                    <input id="event-type-sightseeing-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="sightseeing">
-                    <label class="event__type-label  event__type-label--sightseeing" for="event-type-sightseeing-1">Sightseeing</label>
-                  </div>
-
-                  <div class="event__type-item">
-                    <input id="event-type-restaurant-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="restaurant">
-                    <label class="event__type-label  event__type-label--restaurant" for="event-type-restaurant-1">Restaurant</label>
-                  </div>
+                  ${itemActivityTemplate}
                 </fieldset>
               </div>
             </div>
@@ -130,10 +94,8 @@ const createEventEditTemplate = (event) => {
             <div class="event__field-group  event__field-group--price">
               <label class="event__label" for="event-price-1">
                 <span class="visually-hidden">Price</span>
-                ${price}
-                &euro;
               </label>
-              <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="">
+              <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value=&euro;${price}>
             </div>
             <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
             <button class="event__reset-btn" type="reset">Cancel</button>
@@ -198,34 +160,29 @@ export default class EventEdit extends SmartView {
       .addEventListener(`change`, this._destinationClickHandler);
   }
 
-  // только обновление date поэтому true
-  // _descriptionInputHandler(evt) {
-  //   evt.preventDefault();
-  //   this.updateData({
-  //     description: evt.target.value
-  //   }, true);
-  // }
-
-
-
   _typeClickHandler(evt) {
     evt.preventDefault();
     this._data.type = types.filter((item) => item.toLowerCase() === evt.target.value.toLowerCase());
     this.updateData({
       type: this._data.type[0],
+      offers: generateOffers(this._data.type[0]),
+
     });
   }
 
   _destinationClickHandler(evt) {
     evt.preventDefault();
     this._data.name = evt.target.value;
-
+    this._data.description = generateRandomDescription();
+    this._data.pictures = getPhotos();
     this.updateData({
-
       infoDestination: {
         name: this._data.name,
-        description: ``,
-        pictures: [],
+        description: this._data.description,
+        pictures: {
+          src: this._data.pictures,
+          description: this._data.description,
+        }
       },
     });
   }

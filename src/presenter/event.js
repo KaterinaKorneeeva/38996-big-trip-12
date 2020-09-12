@@ -86,12 +86,11 @@ export default class Event {
   }
 
   _escKeyDownHandler(evt) {
-    if (evt.key === `Escape` || evt.key === `Esc`) {
-      evt.preventDefault();
-
+    isEscEvent(evt, (e) => {
+      e.preventDefault();
       this._eventEditComponent.reset(this._event);
       this._replaceFormToCard();
-    }
+    });
   }
 
   _handleEditClick() {

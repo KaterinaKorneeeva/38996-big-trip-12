@@ -31,7 +31,7 @@ export const isEnterEvent = function (evt, action) {
 // проверка нажатия ESCAPE
 export const isEscEvent = function (evt, action) {
   if (evt.key === Key.ESCAPE) {
-    action();
+    action(evt);
   }
 };
 
