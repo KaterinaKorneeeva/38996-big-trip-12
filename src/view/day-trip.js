@@ -1,6 +1,5 @@
 import AbstractView from "./abstract.js";
 import {renderDateHoursMin} from "../utils/date-utils.js";
-import {createElement} from "../utils/dom-utils.js";
 
 const createDayTripTemplate = (date, number) => {
   const dateTime = renderDateHoursMin(date).split(`T`)[0];
@@ -13,26 +12,19 @@ const createDayTripTemplate = (date, number) => {
       </ul>
     </li>`;
 };
-
-export default class DayTrip {
+export default class DayTrip extends AbstractView {
   constructor(date, number) {
+    super();
     this._date = date;
     this._number = number;
-    this._element = null;
   }
 
   getTemplate() {
     return createDayTripTemplate(this._date, this._number);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
+  getEventsList() {
+    return this.getElement().querySelector(`.trip-events__list`);
   }
 
-  removeElement() {
-    this._element = null;
-  }
 }

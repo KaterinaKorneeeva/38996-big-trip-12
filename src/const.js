@@ -1,6 +1,4 @@
-import {getRandomInteger} from "./utils/common.js";
-
-const TRANSPORT_TYPE = [
+export const TRANSPORT_TYPE = [
   `Taxi`,
   `Bus`,
   `Train`,
@@ -13,47 +11,30 @@ const TRANSPORT_TYPE = [
   `Restaurant`
 ];
 
-const DESTINATION = [
+export const DESTINATION = [
   `Amsterdam`,
   `Geneva`,
   `Chamonix`,
   `Saint Petersburg`
 ];
 
-const DESCRIPTION_TEXT = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.`;
+export const DESCRIPTION_TEXT = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.`;
 
-const OFFERS = [
-  {
-    title: `Add luggage`,
-    price: 50,
-    isChecked: Boolean(getRandomInteger(0, 1)),
-  },
-  {
-    title: `Switch to comfort class`,
-    price: 100,
-    isChecked: Boolean(getRandomInteger(0, 1)),
-  },
-  {
-    title: `Add meal`,
-    price: 15,
-    isChecked: Boolean(getRandomInteger(0, 1)),
-  },
 
-  {
-    title: `Choose seats`,
-    price: 5,
-    isChecked: Boolean(getRandomInteger(0, 1)),
-  },
-  {
-    title: `Travel by train`,
-    price: 40,
-    isChecked: Boolean(getRandomInteger(0, 1)),
-  },
-  {
-    title: `Order Uber`,
-    price: 20,
-    isChecked: Boolean(getRandomInteger(0, 1)),
-  }
-];
+export const TRANSFER = [`taxi`, `bus`, `train`, `ship`, `transport`, `drive`, `flight`];
+export const ACTIVITY = [`check-in`, `sightseeing`, `restaurant`];
 
-export {TRANSPORT_TYPE, DESTINATION, DESCRIPTION_TEXT, OFFERS};
+export const Offer = {
+  "Train": [{price: 50, description: `Add luggage`}, {price: 20, description: `Switch to comfort class`}, {price: 20, description: `Add meal`}],
+  "Taxi": [{price: 50, description: `Add luggage`}, {price: 20, description: `Switch to comfort class`}, {price: 20, description: `Order Uber`}],
+  "Ship": [{price: 50, description: `Travel by train`}, {price: 20, description: `Choose seats`}],
+  "Transport": [{price: 50, description: `Add luggage`}, {price: 20, description: `Switch to comfort class`}, {price: 20, description: `Add meal`}],
+  "Plane": [{price: 50, description: `Add luggage`}, {price: 20, description: `Switch to comfort class`}, {price: 20, description: `Choose seats`}],
+  "Flight": [{price: 50, description: `Travel by train`}, {price: 20, description: `Order Uber`}, {price: 20, description: `Choose seats`}],
+  "Drive": [{price: 50, description: `Travel by train`}],
+  "Bus": [{price: 50, description: `Travel by train`}],
+  "Check-in": [{price: 50, description: `Travel by train`}, {price: 20, description: `Order Uber`}, {price: 20, description: `Choose seats`}],
+  "Sightseeing": [{price: 50, description: `Travel by train`}],
+  "Restaurant": [{price: 50, description: `Travel by train`}],
+};
+

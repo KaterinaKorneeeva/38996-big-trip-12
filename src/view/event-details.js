@@ -1,18 +1,19 @@
 import AbstractView from "./abstract.js";
 
-const createPhotosTemplate = (photos) => {
-  return photos.map((photo) => `
-    <img class="event__photo" src="${photo}" alt="Event photo">
+const createPhotosTemplate = (photos, description) => {
+  return photos.map((src) => `
+    <img class="event__photo" src="${src}" alt="${description}">
   `).join(``);
 };
 
 const createOfferTemplate = (offers) => {
-  return offers.map((offer) => {
+  const {isChecked} = offers;
+  return offers.offer.map((offer) => {
     return (
       `<div class="event__offer-selector">
-        <input class="event__offer-checkbox  visually-hidden" id="event-offer-${offer.title}-1" type="checkbox" name="event-offer-${offer.title}"${offer.isChecked ? `checked` : ``}>
-        <label class="event__offer-label" for="event-offer-${offer.title}-1">
-          <span class="event__offer-title">${offer.title}</span>
+        <input class="event__offer-checkbox  visually-hidden" id="event-offer-${offer.description}-1" type="checkbox" name="event-offer-${offer.description}"${isChecked ? `checked` : ``}>
+        <label class="event__offer-label" for="event-offer-${offer.description}-1">
+          <span class="event__offer-title">${offer.description}</span>
           &plus;
           &euro;&nbsp;<span class="event__offer-price">${offer.price}</span>
         </label>
@@ -22,9 +23,9 @@ const createOfferTemplate = (offers) => {
 };
 
 const createEventDetailsTemplate = (event) => {
-  const {description, photos, offers} = event;
-
-  const photosTemplate = createPhotosTemplate(photos);
+  const {infoDestination, offers} = event;
+  const {src, description} = infoDestination.pictures;
+  const photosTemplate = createPhotosTemplate(src, description);
   return `<section class="event__details">
               <section class="event__section  event__section--offers">
                 <h3 class="event__section-title  event__section-title--offers">Offers</h3>
@@ -34,7 +35,7 @@ const createEventDetailsTemplate = (event) => {
               </section>
               <section class="event__section  event__section--destination">
                 <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-                <p class="event__destination-description"> ${description}</p>
+                <p class="event__destination-description"> ${infoDestination.description}</p>
                 <div class="event__photos-container">
                   <div class="event__photos-tape">
                     ${photosTemplate}
