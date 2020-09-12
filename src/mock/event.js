@@ -1,5 +1,5 @@
 import {getRandomInteger, getRandomItem, getRandomBoolean} from "../utils/common.js";
-import {TRANSPORT_TYPE, DESTINATION, DESCRIPTION_TEXT, OFFERS, Offer} from "../const.js";
+import {TRANSPORT_TYPE, DESTINATION, DESCRIPTION_TEXT, Offer} from "../const.js";
 
 // Date.now() и Math.random() - плохие решения для генерации id
 // в "продуктовом" коде, а для моков самое то.
@@ -49,6 +49,7 @@ const generateOfferbyType = (type) => {
       return Offer[key];
     }
   }
+  return [];
 };
 
 export const generateOffers = (type) => {

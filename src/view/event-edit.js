@@ -4,10 +4,9 @@ import {renderDate} from "../utils/date-utils.js";
 import EventDetailsView from "../view/event-details.js";
 import {getPhotos, generateRandomDescription, generateOffers} from "../mock/event.js";
 
-import {TRANSPORT_TYPE, TRANSFER, ACTIVITY, DESTINATION, OFFERS} from "../const.js";
+import {TRANSPORT_TYPE, TRANSFER, ACTIVITY, DESTINATION} from "../const.js";
 
 const types = TRANSPORT_TYPE;
-const offers = OFFERS;
 
 const BLANK_EVENT = {
   type: ``,

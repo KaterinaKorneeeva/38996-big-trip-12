@@ -3,8 +3,8 @@ import SortView from "../view/sort.js";
 import ListTripView from "../view/list-trip.js";
 import EventPresenter from "./event.js";
 import DayTripView from "../view/day-trip.js";
-import {isEscEvent, updateItem} from "../utils/common.js";
-import {render, replace} from "../utils/dom-utils.js";
+import {updateItem} from "../utils/common.js";
+import {render} from "../utils/dom-utils.js";
 
 
 export default class Trip {
@@ -16,7 +16,7 @@ export default class Trip {
 
     this._handleEventChange = this._handleEventChange.bind(this);
 
-    //метод для сброса представлений
+    // метод для сброса представлений
     this._handleModeChange = this._handleModeChange.bind(this);
 
 
