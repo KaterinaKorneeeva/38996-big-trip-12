@@ -3,6 +3,7 @@ import FilterView from "./view/filter.js";
 import TripInfoView from "./view/trip-info.js";
 import TripPresenter from "./presenter/trip.js";
 import {generateEvent} from "./mock/event.js";
+import EventsModel from "./model/events.js";
 import {render, RenderPosition} from "./utils/dom-utils.js";
 
 const EVENT_COUNT = 13;
@@ -20,6 +21,8 @@ const mainElement = document.querySelector(`.page-main`);
 const tripElement = mainElement.querySelector(`.trip-events`);
 
 const events = new Array(EVENT_COUNT).fill().map(generateEvent);
+const eventsModel = new EventsModel();
+eventsModel.setEvents(events);
 
-const tripPresenter = new TripPresenter(tripElement);
-tripPresenter.init(events);
+const tripPresenter = new TripPresenter(tripElement, eventsModel);
+tripPresenter.init();

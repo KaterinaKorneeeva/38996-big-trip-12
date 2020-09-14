@@ -2,6 +2,7 @@ import EventView from "../view/event.js";
 import EventEditView from "../view/event-edit.js";
 import {isEscEvent} from "../utils/common.js";
 import {render, replace, remove} from "../utils/dom-utils.js";
+import {UserAction, UpdateType} from "../const.js";
 
 const Mode = {
   DEFAULT: `DEFAULT`,
@@ -99,6 +100,9 @@ export default class Event {
 
   _handleFavoriteClick() {
     this._changeData(
+
+        UserAction.UPDATE_TASK,
+        UpdateType.MINOR,
         Object.assign(
             {},
             this._event,
@@ -110,7 +114,11 @@ export default class Event {
   }
 
   _handleFormSubmit(event) {
-    this._changeData(event);
+    this._changeData(
+        UserAction.UPDATE_TASK,
+        UpdateType.MINOR,
+        event
+    );
     this._replaceFormToCard();
   }
 }
