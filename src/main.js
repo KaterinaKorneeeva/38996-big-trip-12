@@ -26,3 +26,9 @@ eventsModel.setEvents(events);
 
 const tripPresenter = new TripPresenter(tripElement, eventsModel);
 tripPresenter.init();
+
+
+document.querySelector(`.trip-main__event-add-btn`).addEventListener(`click`, (evt) => {
+  evt.preventDefault();
+  tripPresenter.createEvent();
+});

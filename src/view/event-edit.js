@@ -12,8 +12,16 @@ const BLANK_EVENT = {
   type: ``,
   infoDestination: {
     description: ``,
-    pictures: [],
+    pictures: {
+      src: [],
+      description: ``,
+    }
   },
+  offers: {
+    offer: [],
+    isChecked: false,
+  },
+
   price: ``,
   date: {
     start: new Date(),

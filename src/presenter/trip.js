@@ -2,6 +2,7 @@
 import SortView from "../view/sort.js";
 import ListTripView from "../view/list-trip.js";
 import EventPresenter from "./event.js";
+import EventNewPresenter from "./event-new.js";
 import DayTripView from "../view/day-trip.js";
 // import {updateItem} from "../utils/common.js";
 import {render} from "../utils/dom-utils.js";
@@ -29,6 +30,9 @@ export default class Trip {
 
     this._eventsModel.addObserver(this._handleModelEvent);
 
+    this._eventNewPresenter = new EventNewPresenter(this._listTripComponent, this._handleViewAction);
+
+
 
   }
 
@@ -51,6 +55,12 @@ export default class Trip {
 
     // this._sourcedBoardEvents = events.slice();
     this._renderBoard();
+  }
+
+  createEvent() {
+    // this._currentSortType = SortType.DEFAULT;
+    // this._filterModel.setFilter(UpdateType.MAJOR, FilterType.ALL);
+    this._eventNewPresenter.init();
   }
 
   _getEvents() {

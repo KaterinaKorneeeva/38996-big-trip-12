@@ -1,4 +1,26 @@
 import AbstractView from "./abstract.js";
+import he from "he";
+
+const BLANK_EVENT = {
+  type: ``,
+  infoDestination: {
+    description: ``,
+    pictures: {
+      src: [],
+      description: ``,
+    }
+  },
+  offers: {
+    offer: [],
+    isChecked: ``,
+  },
+  price: ``,
+  date: {
+    start: new Date(),
+    end: new Date(),
+  },
+  isFavorite: false,
+};
 
 const createPhotosTemplate = (photos, description) => {
   return photos.map((src) => `
@@ -7,7 +29,9 @@ const createPhotosTemplate = (photos, description) => {
 };
 
 const createOfferTemplate = (offers) => {
+
   const {isChecked} = offers;
+  console.log('isChecked',  offers);
   return offers.offer.map((offer) => {
     return (
       `<div class="event__offer-selector">
@@ -23,6 +47,7 @@ const createOfferTemplate = (offers) => {
 };
 
 const createEventDetailsTemplate = (event) => {
+  console.log('event',event);
   const {infoDestination, offers} = event;
   const {src, description} = infoDestination.pictures;
   const photosTemplate = createPhotosTemplate(src, description);
@@ -35,7 +60,7 @@ const createEventDetailsTemplate = (event) => {
               </section>
               <section class="event__section  event__section--destination">
                 <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-                <p class="event__destination-description"> ${infoDestination.description}</p>
+                <p class="event__destination-description"> ${he.encode(infoDestination.description)}</p>
                 <div class="event__photos-container">
                   <div class="event__photos-tape">
                     ${photosTemplate}
@@ -48,7 +73,7 @@ const createEventDetailsTemplate = (event) => {
 
 // export default class EventDetails {
 export default class EventDetails extends AbstractView {
-  constructor(event) {
+  constructor(event = BLANK_EVENT) {
     super();
     this._event = event;
   }
