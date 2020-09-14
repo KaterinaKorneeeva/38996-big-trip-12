@@ -23,6 +23,7 @@ export default class Event {
     this._handleEditClick = this._handleEditClick.bind(this);
     this._handleFavoriteClick = this._handleFavoriteClick.bind(this);
     this._handleFormSubmit = this._handleFormSubmit.bind(this);
+    this._handleDeleteClick = this._handleDeleteClick.bind(this);
     this._escKeyDownHandler = this._escKeyDownHandler.bind(this);
   }
 
@@ -38,6 +39,7 @@ export default class Event {
     this._eventComponent.setEditClickHandler(this._handleEditClick);
     this._eventEditComponent.setFavoriteClickHandler(this._handleFavoriteClick);
     this._eventEditComponent.setFormSubmitHandler(this._handleFormSubmit);
+    this._eventEditComponent.setDeleteClickHandler(this._handleDeleteClick);
 
     // условие на проверку, первый раз был вызван init или нет
     if (prevEventComponent === null || prevEventEditComponent === null) {
@@ -120,5 +122,13 @@ export default class Event {
         event
     );
     this._replaceFormToCard();
+  }
+
+  _handleDeleteClick(event) {
+    this._changeData(
+        UserAction.DELETE_TASK,
+        UpdateType.MINOR,
+        event
+    );
   }
 }

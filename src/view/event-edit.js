@@ -97,7 +97,7 @@ const createEventEditTemplate = (event) => {
               <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value=&euro;${price}>
             </div>
             <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
-            <button class="event__reset-btn" type="reset">Cancel</button>
+            <button class="event__reset-btn" type="reset">Delete</button>
             <input id="event-favorite-1" class="event__favorite-checkbox  visually-hidden" type="checkbox" name="event-favorite" ${favoriteChecked}>
             <label class="event__favorite-btn" for="event-favorite-1">
               <span class="visually-hidden">Add to favorite</span>
@@ -128,9 +128,21 @@ export default class EventEdit extends SmartView {
 
 
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
+    this._formDeleteClickHandler = this._formDeleteClickHandler.bind(this);
 
     //
     this._setInnerHandlers();
+  }
+
+  // Перегружаем метод родителя removeElement,
+  // чтобы при удалении удалялся более ненужный календарь
+  removeElement() {
+    super.removeElement();
+    console.log('dddddddd');
+    if (this._datepicker) {
+      this._datepicker.destroy();
+      this._datepicker = null;
+    }
   }
 
   // сброс
@@ -147,6 +159,7 @@ export default class EventEdit extends SmartView {
   restoreHandlers() {
     this._setInnerHandlers();
     this.setFormSubmitHandler(this._callback.formSubmit);
+    this.setDeleteClickHandler(this._callback.deleteClick);
   }
 
   _setInnerHandlers() {
@@ -200,13 +213,38 @@ export default class EventEdit extends SmartView {
     this._callback.formSubmit(this._data);
   }
 
+  _formDeleteClickHandler(evt) {
+    evt.preventDefault();
+    console.log('TaskEdit.parseDataToTask(this._data)',EventEdit.parseDataToEvent(this._data));
+
+    this._callback.deleteClick(EventEdit.parseDataToEvent(this._data));
+  }
+
+  setDeleteClickHandler(callback) {
+    console.log('callback',callback);
+    this._callback.deleteClick = callback;
+    console.log('ddd',this.getElement().querySelector(`.event__reset-btn`));
+    this.getElement().querySelector(`.event__reset-btn`).addEventListener(`click`, this._formDeleteClickHandler);
+  }
+
   setFormSubmitHandler(callback) {
     this._callback.formSubmit = callback;
     this.getElement().querySelector(`form`).addEventListener(`submit`, this._formSubmitHandler);
   }
 
 
+
   static parseTaskToData(data) {
     return Object.assign({}, data);
+  }
+
+  static parseDataToEvent(data) {
+    data = Object.assign({}, data);
+
+    if (data.isFavorite) {
+      data.isFavorite = true;
+    }
+
+    return data;
   }
 }

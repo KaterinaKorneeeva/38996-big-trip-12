@@ -84,7 +84,7 @@ export default class Trip {
         this._eventsModel.addEvents(updateType, update);
         break;
       case UserAction.DELETE_TASK:
-        this._eventsModel.deleteEvents(updateType, update);
+        this._eventsModel.deleteEvent(updateType, update);
         break;
     }
   }
