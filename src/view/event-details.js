@@ -31,7 +31,6 @@ const createPhotosTemplate = (photos, description) => {
 const createOfferTemplate = (offers) => {
 
   const {isChecked} = offers;
-  console.log('isChecked',  offers);
   return offers.offer.map((offer) => {
     return (
       `<div class="event__offer-selector">
@@ -47,7 +46,6 @@ const createOfferTemplate = (offers) => {
 };
 
 const createEventDetailsTemplate = (event) => {
-  console.log('event',event);
   const {infoDestination, offers} = event;
   const {src, description} = infoDestination.pictures;
   const photosTemplate = createPhotosTemplate(src, description);
@@ -71,7 +69,6 @@ const createEventDetailsTemplate = (event) => {
         </section>`;
 };
 
-// export default class EventDetails {
 export default class EventDetails extends AbstractView {
   constructor(event = BLANK_EVENT) {
     super();

@@ -31,9 +31,6 @@ export default class Trip {
     this._eventsModel.addObserver(this._handleModelEvent);
 
     this._eventNewPresenter = new EventNewPresenter(this._listTripComponent, this._handleViewAction);
-
-
-
   }
 
 
@@ -81,7 +78,6 @@ export default class Trip {
   // }
 
   _handleViewAction(actionType, updateType, update) {
-    console.log(actionType, updateType, update);
     // Здесь будем вызывать обновление модели.
     // actionType - действие пользователя, нужно чтобы понять, какой метод модели вызвать
     // updateType - тип изменений, нужно чтобы понять, что после нужно обновить

@@ -146,7 +146,6 @@ export default class EventEdit extends SmartView {
   // чтобы при удалении удалялся более ненужный календарь
   removeElement() {
     super.removeElement();
-    console.log('dddddddd');
     if (this._datepicker) {
       this._datepicker.destroy();
       this._datepicker = null;
@@ -223,15 +222,12 @@ export default class EventEdit extends SmartView {
 
   _formDeleteClickHandler(evt) {
     evt.preventDefault();
-    console.log('TaskEdit.parseDataToTask(this._data)',EventEdit.parseDataToEvent(this._data));
 
     this._callback.deleteClick(EventEdit.parseDataToEvent(this._data));
   }
 
   setDeleteClickHandler(callback) {
-    console.log('callback',callback);
     this._callback.deleteClick = callback;
-    console.log('ddd',this.getElement().querySelector(`.event__reset-btn`));
     this.getElement().querySelector(`.event__reset-btn`).addEventListener(`click`, this._formDeleteClickHandler);
   }
 
@@ -239,8 +235,6 @@ export default class EventEdit extends SmartView {
     this._callback.formSubmit = callback;
     this.getElement().querySelector(`form`).addEventListener(`submit`, this._formSubmitHandler);
   }
-
-
 
   static parseTaskToData(data) {
     return Object.assign({}, data);

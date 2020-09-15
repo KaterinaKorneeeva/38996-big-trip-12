@@ -26,3 +26,23 @@ export const renderDateHoursMin = (date) => {
 
   return `${year}-${month}-${day}T${hours}:${minutes}`;
 };
+
+export const getCurrentDate = () => {
+  const currentDate = new Date();
+  currentDate.setHours(23, 59, 59, 999);
+
+  return currentDate;
+};
+
+
+export const isEventFutureExpiringToday = (dateFrom) => {
+  const currentDate = getCurrentDate();
+  return currentDate.getTime() < dateFrom.getTime();
+};
+
+export const isEventPastExpiringToday = (dateTo) => {
+
+  const currentDate = getCurrentDate();
+
+  return currentDate.getTime() > dateTo.getTime();
+};

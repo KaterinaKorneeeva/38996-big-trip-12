@@ -40,9 +40,6 @@ export default class Events extends Observer {
   }
 
   deleteEvent(updateType, update) {
-
-
-    console.log('fffffff');
     const index = this._events.findIndex((event) => event.id === update.id);
 
     if (index === -1) {

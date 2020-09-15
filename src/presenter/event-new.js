@@ -51,7 +51,6 @@ export default class EventNew {
     // if (prevEventComponent === null || prevEventEditComponent === null) {
     render(this._eventListContainer, this._eventEditComponent.getElement(), RenderPosition.AFTERBEGIN);
     document.addEventListener(`keydown`, this._escKeyDownHandler);
-      // return;
 
 
     // // Проверка на наличие в DOM необходима,
