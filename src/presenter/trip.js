@@ -57,6 +57,7 @@ export default class Trip {
   createEvent() {
     // this._currentSortType = SortType.DEFAULT;
     // this._filterModel.setFilter(UpdateType.MAJOR, FilterType.ALL);
+
     this._eventNewPresenter.init();
   }
 
@@ -103,6 +104,8 @@ export default class Trip {
         this._eventPresenter[data.id].init(data);
         break;
       case UpdateType.MINOR:
+        this._clearEventList();
+        this._renderBoard();
         // - обновить список (например, когда задача ушла в архив)
         break;
       case UpdateType.MAJOR:

@@ -54,23 +54,23 @@ export default class Filter {
   }
 
   _getFilters() {
-    const points = this._pointsModel.getPoints();
+    const events = this._eventsModel.getEvents();
 
     return [
       {
         type: FilterType.EVERYTHING,
         name: `everything`,
-        count: filter[FilterType.EVERYTHING](points).length
+        count: filter[FilterType.EVERYTHING](events).length
       },
       {
         type: FilterType.PAST,
         name: `past`,
-        count: filter[FilterType.PAST](points).length
+        count: filter[FilterType.PAST](events).length
       },
       {
         type: FilterType.FUTURE,
         name: `future`,
-        count: filter[FilterType.FUTURE](points).length
+        count: filter[FilterType.FUTURE](events).length
       },
     ];
   }

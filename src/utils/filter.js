@@ -5,8 +5,8 @@ export const filter = {
   [FilterType.EVERYTHING]: (events) => events.slice(),
 
   [FilterType.FUTURE]: (events) => events
-    .filter((event) => isEventFutureExpiringToday(event.dateFrom)),
+    .filter((event) => isEventFutureExpiringToday(event.date.start)),
 
   [FilterType.PAST]: (events) => events
-    .filter((event) => isEventPastExpiringToday(event.dateTo)),
+    .filter((event) => isEventPastExpiringToday(event.date.end)),
 };

@@ -41,8 +41,6 @@ export const isEventFutureExpiringToday = (dateFrom) => {
 };
 
 export const isEventPastExpiringToday = (dateTo) => {
-
   const currentDate = getCurrentDate();
-
   return currentDate.getTime() > dateTo.getTime();
 };

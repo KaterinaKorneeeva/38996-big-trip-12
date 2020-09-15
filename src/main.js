@@ -33,19 +33,10 @@ const filters = generateFilter(events);
 // меню и фильтры
 render(headerInfoElement, new TripInfoView().getElement(), RenderPosition.AFTERBEGIN);
 render(headerControlsElement, new MenuView().getElement());
-render(headerControlsElement, new FilterView(filters).getElement());
-
-// render(headerControlsElement, new FilterView().getElement());
-
-
-
-
-// const filterElement = mainElement.querySelector(`trip-main__trip-controls`);
-// console.log('filterElement',filterElement);
 const tripPresenter = new TripPresenter(tripElement, eventsModel);
-// const filterPresenter = new FilterPresenter(filterElement, filterModel, eventsModel);
+const filterPresenter = new FilterPresenter(filterElement, filterModel, eventsModel);
 
-// filterPresenter.init();
+filterPresenter.init();
 tripPresenter.init();
 
 
